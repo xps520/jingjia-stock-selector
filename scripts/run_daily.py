@@ -191,7 +191,7 @@ def main():
         raw = a * 0.25 + b * 0.20 + c_s * 0.15 + d_s * 0.20 + e * 0.20
         score = raw * 4 - risk
 
-        if score >= 16:
+        if score >= 14:
             cand.append({
                 "name": name, "code": fd.to_ts_code(code), "score": round(score, 1),
                 "gap": round(gap, 1), "lt": lt, "vr": round(vr, 3),
