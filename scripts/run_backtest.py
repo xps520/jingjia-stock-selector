@@ -246,7 +246,7 @@ def main():
             if "分歧" in mood:
                 score -= 1.5
 
-            if score >= 16:
+            if score >= 14:
                 cand.append({"code": code, "name": name, "score": score, "gap": gap,
                              "lt": lt, "buy_p": buy_p, "vr": vr, "mv": mv, "e": e, "gx10": gx10})
 
