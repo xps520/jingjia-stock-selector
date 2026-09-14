@@ -1,0 +1,40 @@
+name: 竞价选股（云端）
+
+on:
+  schedule:
+    # 北京时间 9:31 / 9:33 / 9:35（UTC 1:31/1:33/1:35），工作日
+    # 说明：竞价成交额取自腾讯分时「09:30 首条」，9:30 开盘后才生成，
+    #       故调度定在 9:31 之后（原 Tushare 版可 9:25 跑，免费源做不到）。
+    #       跑三次是为了容错：首次若数据未就绪/接口抖动，后续可补。
+    - cron: '31 1 * * 1-5'
+    - cron: '33 1 * * 1-5'
+    - cron: '35 1 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '指定日期 YYYYMMDD（留空=最近交易日）'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  jingjia:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run jingjia daily
+        env:
+          SERVERCHAN_SENDKEY: ${{ secrets.SERVERCHAN_SENDKEY }}
+          TZ: Asia/Shanghai
+        run: |
+          cd scripts
+          python run_daily.py ${{ github.event.inputs.date != '' && format('--date {0}', github.event.inputs.date) || '' }}
