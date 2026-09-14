@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 本地临时
+*.log
+*.tmp
+
+# 大图（项目概览图，2MB，不必入库）
+ChatGPT Image*.png
